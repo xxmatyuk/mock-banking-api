@@ -1,0 +1,424 @@
+openapi: 3.0.3
+info:
+  title: Mock banking API
+  version: 1.0.0
+  description: Internal API for a fake financial institution using Python and Django.
+paths:
+  /accounts/{id}/get-balance/:
+    get:
+      operationId: accounts_get_balance_retrieve
+      description: API for getting account details
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - accounts
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankingAccountResponse'
+          description: ''
+  /accounts/{id}/get-history/:
+    get:
+      operationId: accounts_get_history_retrieve
+      description: API for getting account details
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - accounts
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionHistoryResponse'
+          description: ''
+  /api/schema/:
+    get:
+      operationId: api_schema_retrieve
+      description: |-
+        OpenApi3 schema for this API. Format can be selected via content negotiation.
+
+        - YAML: application/vnd.oai.openapi
+        - JSON: application/vnd.oai.openapi+json
+      parameters:
+      - in: query
+        name: format
+        schema:
+          type: string
+          enum:
+          - json
+          - yaml
+      - in: query
+        name: lang
+        schema:
+          type: string
+          enum:
+          - af
+          - ar
+          - ar-dz
+          - ast
+          - az
+          - be
+          - bg
+          - bn
+          - br
+          - bs
+          - ca
+          - cs
+          - cy
+          - da
+          - de
+          - dsb
+          - el
+          - en
+          - en-au
+          - en-gb
+          - eo
+          - es
+          - es-ar
+          - es-co
+          - es-mx
+          - es-ni
+          - es-ve
+          - et
+          - eu
+          - fa
+          - fi
+          - fr
+          - fy
+          - ga
+          - gd
+          - gl
+          - he
+          - hi
+          - hr
+          - hsb
+          - hu
+          - hy
+          - ia
+          - id
+          - ig
+          - io
+          - is
+          - it
+          - ja
+          - ka
+          - kab
+          - kk
+          - km
+          - kn
+          - ko
+          - ky
+          - lb
+          - lt
+          - lv
+          - mk
+          - ml
+          - mn
+          - mr
+          - my
+          - nb
+          - ne
+          - nl
+          - nn
+          - os
+          - pa
+          - pl
+          - pt
+          - pt-br
+          - ro
+          - ru
+          - sk
+          - sl
+          - sq
+          - sr
+          - sr-latn
+          - sv
+          - sw
+          - ta
+          - te
+          - tg
+          - th
+          - tk
+          - tr
+          - tt
+          - udm
+          - uk
+          - ur
+          - uz
+          - vi
+          - zh-hans
+          - zh-hant
+      tags:
+      - api
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/vnd.oai.openapi:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/yaml:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/vnd.oai.openapi+json:
+              schema:
+                type: object
+                additionalProperties: {}
+            application/json:
+              schema:
+                type: object
+                additionalProperties: {}
+          description: ''
+  /customers/{id}/accounts-balances/:
+    get:
+      operationId: customers_accounts_balances_retrieve
+      description: API for adding new customer and banking account
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: string
+        required: true
+      tags:
+      - customers
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankingAccountResponse'
+          description: ''
+  /customers/add-banking-account/:
+    post:
+      operationId: customers_add_banking_account_create
+      description: API for adding new customer and banking account
+      tags:
+      - customers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/BankingAccount'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/BankingAccount'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/BankingAccount'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/BankingAccountResponse'
+          description: ''
+  /customers/create-customer-account/:
+    post:
+      operationId: customers_create_customer_account_create
+      description: API for adding new customer and banking account
+      tags:
+      - customers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CreateCustomer'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/CreateCustomer'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/CreateCustomer'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CustomerResponse'
+          description: ''
+  /transactions/make/:
+    post:
+      operationId: transactions_make_create
+      description: API for manking transactions
+      tags:
+      - transactions
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewTransaction'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/NewTransaction'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/NewTransaction'
+        required: true
+      security:
+      - cookieAuth: []
+      - basicAuth: []
+      - {}
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TransactionHistoryResponse'
+          description: ''
+components:
+  schemas:
+    BankingAccount:
+      type: object
+      description: Serializer class for handling banking account creation
+      properties:
+        deposit_amount:
+          type: string
+          format: decimal
+          pattern: ^\d{0,12}(\.\d{0,2})?$
+          minimum: 0
+        owner_id:
+          type: integer
+      required:
+      - deposit_amount
+      - owner_id
+    BankingAccountResponse:
+      type: object
+      description: Serizlier class banking account balance response
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        balance_currency:
+          type: string
+          readOnly: true
+        balance:
+          type: string
+          format: decimal
+          pattern: ^\d{0,17}(\.\d{0,2})?$
+        owner:
+          type: integer
+      required:
+      - balance
+      - balance_currency
+      - id
+      - owner
+    CreateCustomer:
+      type: object
+      description: Serializer class for handling customer creation
+      properties:
+        deposit_amount:
+          type: string
+          format: decimal
+          pattern: ^\d{0,12}(\.\d{0,2})?$
+          minimum: 0
+        name:
+          type: string
+          maxLength: 1024
+      required:
+      - deposit_amount
+      - name
+    CustomerResponse:
+      type: object
+      description: Serializer class for customer creation response
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 1024
+      required:
+      - id
+      - name
+    NewTransaction:
+      type: object
+      description: Serializer class for handling a transaction
+      properties:
+        deposit_amount:
+          type: string
+          format: decimal
+          pattern: ^\d{0,12}(\.\d{0,2})?$
+          minimum: 0
+        from_banking_account:
+          type: integer
+        to_banking_account:
+          type: integer
+      required:
+      - deposit_amount
+      - from_banking_account
+      - to_banking_account
+    TransactionHistoryResponse:
+      type: object
+      description: Serializer class for transaction history response
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        amount_currency:
+          type: string
+          readOnly: true
+        amount:
+          type: string
+          format: decimal
+          pattern: ^\d{0,17}(\.\d{0,2})?$
+        date:
+          type: string
+          format: date-time
+          readOnly: true
+        sender_account:
+          type: integer
+        recipient_account:
+          type: integer
+      required:
+      - amount
+      - amount_currency
+      - date
+      - id
+      - recipient_account
+      - sender_account
+  securitySchemes:
+    basicAuth:
+      type: http
+      scheme: basic
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: Session

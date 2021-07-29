@@ -1,0 +1,10 @@
+Django
+django_extensions
+django-money
+django-rest-framework
+drf_api_logger
+drf_spectacular
+freezegun
+psycopg2-binary
+gunicorn
+coverage

@@ -1,0 +1,57 @@
+## Assumptions
+- there was no requirement of a currency of an account, so assuming currency is all the same across the board and there's no need
+  to solve convertion problem. Yet it may be extended at any point of time by adding appropriate field to an account model
+- assuming there's no limit for number of account for any given customer
+- assuming there's no transactions limit (neither by their number per day, nor by the transactoin amount)
+- banking has some strict precision rules, so assuming a transaction is no more than 14 digits in total with 2 decimal places after comma (i.e. 13.12)
+- there was no requirement on session management and security, so assuming it's beyond the task goal. Session management is a separate task in and of
+  itself, so the security is. There's multiple approaches on doing both tasks and each one depends on architechture and infrastructure. That said, in
+  a trivial case both are coming almost for free by using cloud solutions. So not covering this part as part of this task, which would certainly do in
+  a real life scenario.
+- no CI process was required, though docker image and compose file have been intruduced to make it prod-like
+
+## Running tests
+python manage.py test account.tests
+
+## Running tests with coverage report
+coverage run --source='.' manage.py test account
+coverage report
+
+## Coverage report
+Name                                            Stmts   Miss  Cover
+-------------------------------------------------------------------
+account/__init__.py                                 0      0   100%
+account/admin.py                                   11      0   100%
+account/apps.py                                     4      0   100%
+account/migrations/0001_initial.py                  7      0   100%
+account/migrations/__init__.py                      0      0   100%
+account/models.py                                  32      3    91%
+account/serializers.py                             69      4    94%
+account/tests/__init__.py                           0      0   100%
+account/tests/test_banking_account_viewset.py      97      0   100%
+account/tests/test_customer_viewset.py            129      0   100%
+account/tests/test_transactions_viewset.py        128      0   100%
+account/views.py                                   93     20    78%
+manage.py                                          12      2    83%
+mock_api/__init__.py                                0      0   100%
+mock_api/asgi.py                                    4      4     0%
+mock_api/settings.py                               23      0   100%
+mock_api/urls.py                                   10      0   100%
+mock_api/wsgi.py                                    4      4     0%
+-------------------------------------------------------------------
+TOTAL                                             623     37    94%
+
+## Run app in a container
+docker-compose up -d --build
+
+## Stop app
+docker-compose down -v --remove-orphans
+
+## Endpoints
+/customers/create-customer-account/
+/customers/add-banking-account/
+/transactions/make/
+/accounts/<id>/get-balance/
+/accounts/<id>/get-history/
+/customers/<id>/accounts-balances/
+/api/schema/swagger-ui/
